@@ -1,5 +1,7 @@
 package com.xunpoit.oa.dao;
 
+import java.util.List;
+
 import com.xunpoit.oa.entity.Org;
 
 public interface OrgMapper {
@@ -14,4 +16,6 @@ public interface OrgMapper {
     int updateByPrimaryKeySelective(Org record);
 
     int updateByPrimaryKey(Org record);
+
+	List<Org> findAllByParent(int pid);
 }
