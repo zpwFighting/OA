@@ -12,7 +12,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <link href="style/oa.css" rel="stylesheet" type="text/css">
 <script language="javascript" src="script/public.js"></script>
-<title>机构管理</title>
+<title>人员管理</title>
 </head>
 <BODY bgColor=#dee7ff leftMargin=0 background="" topMargin=0
 	marginheight="0" marginwidth="0">
@@ -24,7 +24,7 @@
 					<TD align=middle width=20 background=images/title_left.gif
 						bgColor=#dee7ff></TD>
 					<TD align=middle width=120 background=images/title_left.gif
-						bgColor=#dee7ff><FONT color=#f7f7f7> 机构管理<font
+						bgColor=#dee7ff><FONT color=#f7f7f7> 人员管理<font
 							color="#FFFFFF">&nbsp;</font></FONT></TD>
 					<TD align=middle width=11 background=images/title_middle.gif
 						bgColor=#dee7ff><FONT color=#f7f7f7>&nbsp;</FONT></TD>
@@ -57,8 +57,8 @@
 						<span style="cursor: hand; color: #0000ff"
 						onmouseover="this.style.coler='#ff0000'"
 						onmouseout="this.style.coler='#0000ff'"
-						onclick="openWin('${pageContext.request.contextPath}/org/addUI.action?pid=${pid}','addOrg',600,200);">
-							添加机构信息</span>&nbsp;&nbsp;&nbsp; <a href="org/findAll.action?pid=${ppid}">返回</a>
+						onclick="openWin('${pageContext.request.contextPath}/person/addUI.action','addperson',600,200);">
+							添加人员信息</span>&nbsp;&nbsp;&nbsp;
 					</TD>
 				</TR>
 				<TR>
@@ -73,24 +73,27 @@
 			<!-- 列表标题栏 -->
 			<tr bgcolor="#EFF3F7" class="TableBody1">
 				<td width="5%" height="37" align="center"><b>序号</b></td>
-				<td width="18%" height="37" align="center"><B>机构名称</B></td>
-				<td width="18%" height="37" align="center"><b>机构编号</b></td>
-				<td width="18%" height="37" align="center"><b>父机构名称</b></td>
+				<td width="18%" height="37" align="center"><B>姓名</B></td>
+				<td width="18%" height="37" align="center"><b>性别</b></td>
+				<td width="18%" height="37" align="center"><b>职务</b></td>
+				<td width="18%" height="37" align="center"><b>电话</b></td>
+				<td width="18%" height="37" align="center"><b>所属机构</b></td>
 				<td width="5%" height="37" align="center"><b>操作</b></td>
 			</tr>
 			<!-- 列表数据栏 -->
 			<c:if test="${!empty pm.dataList}">
-				<c:forEach items="${pm.dataList }" var="org">
+				<c:forEach items="${pm.dataList }" var="person">
 					<tr bgcolor="#EFF3F7" class="TableBody1"
 						onmouseover="this.bgColor = '#DEE7FF';"
 						onmouseout="this.bgColor='#EFF3F7';">
-						<td align="center" vAlign="center">${org.id }</td>
+						<td align="center" vAlign="center">${person.id }</td>
+						<td align="center" vAlign="center">${person.name }</td>
+						<td align="center" vAlign="center">${person.sex }</td>
+						<td align="center" vAlign="center">${person.duty }</td>
+						<td align="center" vAlign="center">${person.phone }</td>
+						<td align="center" vAlign="center">${person.org.name }</td>
 						<td align="center" vAlign="center"><a
-							href="org/findAll.action?pid=${org.id }">${org.name }</a></td>
-						<td align="center" vAlign="center">${org.sn }</td>
-						<td align="center" vAlign="center">${org.parent.name }</td>
-						<td align="center" vAlign="center"><a
-							onclick="del('${pageContext.request.contextPath}/org/del.action?id=${org.id}');">删除</a>
+							onclick="del('${pageContext.request.contextPath}/person/del.action?id=${person.id}');">删除</a>
 						</td>
 					</tr>
 				</c:forEach>
@@ -111,9 +114,7 @@
 				<TR>
 					<TD height=28 align=right vAlign=center noWrap background=images/list_middle.jpg>&nbsp;&nbsp; <!-- 可以在这里插入分页导航条 -->
 						<pg:pager items="${pm.items }" maxPageItems="${pm.pageSize }" maxIndexPages="5"
-							export="currentPageNumber=pageNumber" url="org/findAll.action">
-							<pg:param name="pid"/>
-							
+							export="currentPageNumber=pageNumber" url="person/findAll.action">
 							<pg:first>
 								<a href="${pageUrl}">首页</a>
 							</pg:first>

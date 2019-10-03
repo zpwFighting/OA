@@ -1,5 +1,8 @@
 package com.xunpoit.oa.dao;
 
+import java.util.List;
+import java.util.Map;
+
 import com.xunpoit.oa.entity.Person;
 
 public interface PersonMapper {
@@ -14,4 +17,8 @@ public interface PersonMapper {
     int updateByPrimaryKeySelective(Person record);
 
     int updateByPrimaryKey(Person record);
+
+	List<Person> findAll(Map<String, Integer> personMap);
+
+	long findItems();
 }

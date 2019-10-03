@@ -9,8 +9,13 @@
     <result column="age" property="age" jdbcType="INTEGER" />
     <result column="duty" property="duty" jdbcType="VARCHAR" />
     <result column="phone" property="phone" jdbcType="VARCHAR" />
-    <result column="org_id" property="orgId" jdbcType="INTEGER" />
+    <association property="org" javaType="com.xunpoit.oa.entity.Org"
+                 column="org_id" select="findOrg"></association>
   </resultMap>
+  <!-- 查询机构 -->
+  <select id="findOrg" parameterType="java.lang.Integer" resultType="com.xunpoit.oa.entity.Org">
+  	select id,name,sn,description from t_org where id=#{id}
+  </select>
   <sql id="Base_Column_List" >
     id, name, sex, address, age, duty, phone, org_id
   </sql>
@@ -30,7 +35,7 @@
       phone, org_id)
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, 
       #{address,jdbcType=VARCHAR}, #{age,jdbcType=INTEGER}, #{duty,jdbcType=VARCHAR}, 
-      #{phone,jdbcType=VARCHAR}, #{orgId,jdbcType=INTEGER})
+      #{phone,jdbcType=VARCHAR}, #{org.id,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.xunpoit.oa.entity.Person" >
     insert into t_person
@@ -56,7 +61,7 @@
       <if test="phone != null" >
         phone,
       </if>
-      <if test="orgId != null" >
+      <if test="org != null" >
         org_id,
       </if>
     </trim>
@@ -82,8 +87,8 @@
       <if test="phone != null" >
         #{phone,jdbcType=VARCHAR},
       </if>
-      <if test="orgId != null" >
-        #{orgId,jdbcType=INTEGER},
+      <if test="org != null" >
+        #{org.id,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -108,8 +113,8 @@
       <if test="phone != null" >
         phone = #{phone,jdbcType=VARCHAR},
       </if>
-      <if test="orgId != null" >
-        org_id = #{orgId,jdbcType=INTEGER},
+      <if test="org.id != null" >
+        org_id = #{org.id,jdbcType=INTEGER},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -122,7 +127,17 @@
       age = #{age,jdbcType=INTEGER},
       duty = #{duty,jdbcType=VARCHAR},
       phone = #{phone,jdbcType=VARCHAR},
-      org_id = #{orgId,jdbcType=INTEGER}
+      org_id = #{org.id,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <!-- 分页方法，查询总条数 -->
+   <select id="findAll" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_person
+    limit #{offset},#{pageSize}
+  </select>
+  <select id="findItems" resultType="java.lang.Long" >
+  	select count(*) from t_person 
+  </select>
 </mapper>

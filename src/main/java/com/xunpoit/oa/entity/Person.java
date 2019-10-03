@@ -14,8 +14,8 @@ public class Person {
     private String duty;
 
     private String phone;
-
-    private Integer orgId;
+    //ËùÊô»ú¹¹
+    private Org org;
 
     public Integer getId() {
         return id;
@@ -73,11 +73,14 @@ public class Person {
         this.phone = phone == null ? null : phone.trim();
     }
 
-    public Integer getOrgId() {
-        return orgId;
-    }
+	public Org getOrg() {
+		return org;
+	}
 
-    public void setOrgId(Integer orgId) {
-        this.orgId = orgId;
-    }
+	public void setOrg(Org org) {
+		this.org = org;
+	}
+
+
+   
 }
