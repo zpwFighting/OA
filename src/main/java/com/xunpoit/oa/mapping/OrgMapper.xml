@@ -10,10 +10,10 @@
 		<association property="parent" javaType="com.xunpoit.oa.entity.Org"
 			select="selectByPrimaryKey" column="pid">
 		</association>
-		<!-- 查询子机构 一对多 -->
+		<!-- 查询子机构 一对多-->
 		<collection property="childList" ofType="com.xunpoit.oa.entity.Org" 
 		            select="selectChildListByParent" column="id">
-		 </collection>
+		 </collection> 
 	</resultMap>
 
 	<sql id="Base_Column_List">
@@ -34,7 +34,7 @@
 		from t_org
 		where pid = #{pid}
 	</select>
-	<select id="findAllByParent" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+	<!--  <select id="findAllByParent" parameterType="java.lang.Integer" resultMap="BaseResultMap">
 	   select
 		<include refid="Base_Column_List" />
 		from t_org
@@ -45,6 +45,7 @@
 		where pid is null
 		</if>
 	</select>
+	-->
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
 		delete from t_org
 		where id = #{id,jdbcType=INTEGER}
@@ -56,7 +57,7 @@
 		#{sn,jdbcType=VARCHAR},
 		#{description,jdbcType=VARCHAR}, #{parent.id,jdbcType=INTEGER})
 	</insert>
-	<insert id="insertSelective" parameterType="com.xunpoit.oa.entity.Org">
+	<insert id="insertSelective" parameterType="com.xunpoit.oa.entity.Org" useGeneratedKeys="true" keyProperty="id">
 		insert into t_org
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="id != null">
@@ -119,4 +120,28 @@
 		pid = #{parent.id,jdbcType=INTEGER}
 		where id = #{id,jdbcType=INTEGER}
 	</update>
+	
+	<!-- 1.分页方法   2.查询总条数 -->
+	<select id="findAllByParent" parameterType="java.util.Map" resultMap="BaseResultMap">
+	   select
+		<include refid="Base_Column_List" />
+		from t_org
+		<if test="pid > 0">
+		where pid = #{pid}
+		</if>
+		<if test="pid == 0">
+		where pid is null
+		</if>
+		limit #{offset},#{pageSize}
+	</select>
+	<select id="selectCount" parameterType="java.lang.Integer" resultType="java.lang.Long">
+		select count(*) from t_org 
+		<if test="_parameter > 0">
+		where pid = #{pid}
+		</if>
+		<if test="_parameter == 0">
+		where pid is null
+		</if>
+	</select>
+	
 </mapper>
