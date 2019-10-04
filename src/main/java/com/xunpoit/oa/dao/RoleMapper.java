@@ -1,5 +1,7 @@
 package com.xunpoit.oa.dao;
 
+import java.util.List;
+
 import com.xunpoit.oa.entity.Role;
 
 public interface RoleMapper {
@@ -14,4 +16,6 @@ public interface RoleMapper {
     int updateByPrimaryKeySelective(Role record);
 
     int updateByPrimaryKey(Role record);
+
+	List<Role> findAll();
 }

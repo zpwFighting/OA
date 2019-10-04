@@ -11,13 +11,24 @@ public class Person {
 
     private Integer age;
 
-    private String duty;
+	private String duty;
 
     private String phone;
     //所属机构
     private Org org;
+    
+    //用户（在写用户模块是添加）
+    private User user;
 
-    public Integer getId() {
+    public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public Integer getId() {
         return id;
     }
 

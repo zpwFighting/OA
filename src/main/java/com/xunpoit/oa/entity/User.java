@@ -7,7 +7,7 @@ public class User {
 
     private String password;
 
-    private Integer personId;
+    private Person person;
 
     public Integer getId() {
         return id;
@@ -33,11 +33,13 @@ public class User {
         this.password = password == null ? null : password.trim();
     }
 
-    public Integer getPersonId() {
-        return personId;
-    }
+	public Person getPerson() {
+		return person;
+	}
 
-    public void setPersonId(Integer personId) {
-        this.personId = personId;
-    }
+	public void setPerson(Person person) {
+		this.person = person;
+	}
+
+  
 }

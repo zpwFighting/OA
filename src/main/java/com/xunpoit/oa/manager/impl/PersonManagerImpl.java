@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.xunpoit.oa.dao.OrgMapper;
 import com.xunpoit.oa.dao.PersonMapper;
+import com.xunpoit.oa.dao.UsersRolesMapper;
 import com.xunpoit.oa.entity.Org;
 import com.xunpoit.oa.entity.Person;
 import com.xunpoit.oa.manager.PersonManager;
@@ -22,6 +23,7 @@ public class PersonManagerImpl implements PersonManager {
 	
 	@Autowired
 	private OrgMapper orgMapper;
+	
 	
 	@Override
 	public void addPerson(Person person, int orgId) {

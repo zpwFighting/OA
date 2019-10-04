@@ -3,13 +3,33 @@
 <mapper namespace="com.xunpoit.oa.dao.UsersRolesMapper" >
   <resultMap id="BaseResultMap" type="com.xunpoit.oa.entity.UsersRoles" >
     <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="user_id" property="userId" jdbcType="INTEGER" />
-    <result column="role_id" property="roleId" jdbcType="INTEGER" />
     <result column="level" property="level" jdbcType="INTEGER" />
+    <association property="user"
+    		     javaType="com.xunpoit.oa.entity.User"
+    		     column="user_id" 
+    		     select="findUserById">
+    </association>
+    <association property="role"
+    			 javaType="com.xunpoit.oa.entity.Role"
+    			 column="role_id"
+    			 select="findRoleById"></association>
   </resultMap>
   <sql id="Base_Column_List" >
     id, user_id, role_id, level
   </sql>
+  <!-- 查询User 和  Role -->
+   <select id="findUserById" resultType="com.xunpoit.oa.entity.User" parameterType="java.lang.Integer" >
+    select 
+    id, user_name userName, password
+    from t_user
+    where id = #{id}
+  </select>
+  <select id="findRoleById" resultType="com.xunpoit.oa.entity.Role" parameterType="java.lang.Integer" >
+    select 
+    id, name
+    from t_role
+    where id = #{id}
+  </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
@@ -23,7 +43,7 @@
   <insert id="insert" parameterType="com.xunpoit.oa.entity.UsersRoles" >
     insert into t_users_roles (id, user_id, role_id, 
       level)
-    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{roleId,jdbcType=INTEGER}, 
+    values (#{id,jdbcType=INTEGER}, #{user.id,jdbcType=INTEGER}, #{role.id,jdbcType=INTEGER}, 
       #{level,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.xunpoit.oa.entity.UsersRoles" >
@@ -32,10 +52,10 @@
       <if test="id != null" >
         id,
       </if>
-      <if test="userId != null" >
+      <if test="user != null" >
         user_id,
       </if>
-      <if test="roleId != null" >
+      <if test="role != null" >
         role_id,
       </if>
       <if test="level != null" >
@@ -46,11 +66,11 @@
       <if test="id != null" >
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="userId != null" >
-        #{userId,jdbcType=INTEGER},
+      <if test="user != null" >
+        #{user.id,jdbcType=INTEGER},
       </if>
-      <if test="roleId != null" >
-        #{roleId,jdbcType=INTEGER},
+      <if test="role != null" >
+        #{role.id,jdbcType=INTEGER},
       </if>
       <if test="level != null" >
         #{level,jdbcType=INTEGER},
@@ -60,11 +80,11 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.xunpoit.oa.entity.UsersRoles" >
     update t_users_roles
     <set >
-      <if test="userId != null" >
-        user_id = #{userId,jdbcType=INTEGER},
+      <if test="user != null" >
+        user_id = #{user.id,jdbcType=INTEGER},
       </if>
-      <if test="roleId != null" >
-        role_id = #{roleId,jdbcType=INTEGER},
+      <if test="role != null" >
+        role_id = #{role.id,jdbcType=INTEGER},
       </if>
       <if test="level != null" >
         level = #{level,jdbcType=INTEGER},
@@ -74,9 +94,16 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.xunpoit.oa.entity.UsersRoles" >
     update t_users_roles
-    set user_id = #{userId,jdbcType=INTEGER},
-      role_id = #{roleId,jdbcType=INTEGER},
+    set user_id = #{user.id,jdbcType=INTEGER},
+      role_id = #{role.id,jdbcType=INTEGER},
       level = #{level,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <!-- 根据用户查询已经分配的所有角色 -->
+  <select id="selectRolesByUser" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_users_roles
+    where user_id = #{userId,jdbcType=INTEGER}
+  </select>
 </mapper>

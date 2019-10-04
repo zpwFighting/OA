@@ -1,5 +1,7 @@
 package com.xunpoit.oa.entity;
 
+import java.util.List;
+
 public class Module {
     private Integer id;
 
@@ -11,7 +13,9 @@ public class Module {
 
     private Integer orderno;
 
-    private Integer pid;
+    private Module  parent;
+    
+    private List<Module> childList;
 
     public Integer getId() {
         return id;
@@ -53,11 +57,21 @@ public class Module {
         this.orderno = orderno;
     }
 
-    public Integer getPid() {
-        return pid;
-    }
+	public Module getParent() {
+		return parent;
+	}
 
-    public void setPid(Integer pid) {
-        this.pid = pid;
-    }
+	public void setParent(Module parent) {
+		this.parent = parent;
+	}
+
+	public List<Module> getChildList() {
+		return childList;
+	}
+
+	public void setChildList(List<Module> childList) {
+		this.childList = childList;
+	}
+
+  
 }

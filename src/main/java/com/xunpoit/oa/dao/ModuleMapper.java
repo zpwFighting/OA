@@ -1,7 +1,9 @@
 package com.xunpoit.oa.dao;
 
-import com.xunpoit.oa.entity.Module;
+import java.util.List;
+import java.util.Map;
 
+import com.xunpoit.oa.entity.Module;
 public interface ModuleMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -14,4 +16,11 @@ public interface ModuleMapper {
     int updateByPrimaryKeySelective(Module record);
 
     int updateByPrimaryKey(Module record);
+
+	Long findCount(int pid);
+
+	List<Module> findAllByParent(Map<String ,Integer> map);
+
+
+	
 }

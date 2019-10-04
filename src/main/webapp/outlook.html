@@ -49,9 +49,9 @@
   o.addPanel(p);
   
   p = new createPanel('p','权限管理');
-  p.addButton('mail.gif','模块管理','alert("Mail2")');
-  p.addButton('peditor.gif','角色管理','alert("Personal Editor")');
-  p.addButton('word.gif','用户管理','alert("Projekte")');
+  p.addButton('mail.gif','模块管理','parent.main.location="module/findAll.action?pid=0"');
+  p.addButton('peditor.gif','角色管理','parent.main.location="role/findAll.action"');
+  p.addButton('news.gif','用户管理','parent.main.location="user/findAll.action"');
   
   o.addPanel(p);
 

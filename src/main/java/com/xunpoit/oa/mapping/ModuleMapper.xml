@@ -7,11 +7,27 @@
     <result column="sn" property="sn" jdbcType="VARCHAR" />
     <result column="url" property="url" jdbcType="VARCHAR" />
     <result column="orderNo" property="orderno" jdbcType="INTEGER" />
-    <result column="pid" property="pid" jdbcType="INTEGER" />
+    <!-- 查父模块 -->
+    <association property="parent"
+    			 javaType="com.xunpoit.oa.entity.Module"
+    			 column="pid"
+    			 select="selectByPrimaryKey" />
+    <!-- 查询子模块 -->
+    <collection property="childList"
+    			ofType="com.xunpoit.oa.entity.Module"
+    			column="id"
+    			select="selectByParent" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, name, sn, url, orderNo, pid
   </sql>
+  <!-- 查询子模块 -->
+  <select id="selectByParent" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_module
+    where pid = #{pid,jdbcType=INTEGER}
+  </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
@@ -26,7 +42,7 @@
     insert into t_module (id, name, sn, 
       url, orderNo, pid)
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{sn,jdbcType=VARCHAR}, 
-      #{url,jdbcType=VARCHAR}, #{orderno,jdbcType=INTEGER}, #{pid,jdbcType=INTEGER})
+      #{url,jdbcType=VARCHAR}, #{orderno,jdbcType=INTEGER}, #{parent.id,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.xunpoit.oa.entity.Module" >
     insert into t_module
@@ -46,7 +62,7 @@
       <if test="orderno != null" >
         orderNo,
       </if>
-      <if test="pid != null" >
+      <if test="parent != null" >
         pid,
       </if>
     </trim>
@@ -66,8 +82,8 @@
       <if test="orderno != null" >
         #{orderno,jdbcType=INTEGER},
       </if>
-      <if test="pid != null" >
-        #{pid,jdbcType=INTEGER},
+      <if test="parent != null" >
+        #{parent.id,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -86,8 +102,8 @@
       <if test="orderno != null" >
         orderNo = #{orderno,jdbcType=INTEGER},
       </if>
-      <if test="pid != null" >
-        pid = #{pid,jdbcType=INTEGER},
+      <if test="parent != null" >
+        pid = #{parent.id,jdbcType=INTEGER},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -98,7 +114,30 @@
       sn = #{sn,jdbcType=VARCHAR},
       url = #{url,jdbcType=VARCHAR},
       orderNo = #{orderno,jdbcType=INTEGER},
-      pid = #{pid,jdbcType=INTEGER}
+      pid = #{parent.id,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  
+  <!-- 分页查询和查询总条数 -->
+  <select id="findAllByParent" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_module
+    <if test="pid > 0">
+    where pid = #{pid,jdbcType=INTEGER}
+    </if>
+    <if test="pid == 0">
+    where pid is null
+    </if>
+    limit #{offset},#{pageSize}
+  </select>
+  <select id="findCount" parameterType="java.lang.Integer" resultType="java.lang.Long">
+   select count(*) from t_module 
+   <if test="_parameter > 0">
+    where pid = #{pid,jdbcType=INTEGER}
+    </if>
+    <if test="_parameter == 0">
+    where pid is null
+    </if>
+  </select>
 </mapper>

@@ -11,7 +11,19 @@
     <result column="phone" property="phone" jdbcType="VARCHAR" />
     <association property="org" javaType="com.xunpoit.oa.entity.Org"
                  column="org_id" select="findOrg"></association>
+     <!-- 查找用户   因为在用户模块中要通过查询person显示用户name信息 所以要在这里建立双向通道 -->
+     <association property="user"
+     			  javaType="com.xunpoit.oa.entity.User"
+     			  column="id"
+     			  select="findUserById"></association>
   </resultMap>
+  <!-- 查询用户相关信息 -->
+  <select id="findUserById" parameterType="java.lang.Integer" resultType="com.xunpoit.oa.entity.User">
+    select 
+    id, user_name userName, password
+    from t_user
+    where person_id = #{id,jdbcType=INTEGER}
+  </select>
   <!-- 查询机构 -->
   <select id="findOrg" parameterType="java.lang.Integer" resultType="com.xunpoit.oa.entity.Org">
   	select id,name,sn,description from t_org where id=#{id}

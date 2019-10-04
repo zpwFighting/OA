@@ -3,9 +3,9 @@ package com.xunpoit.oa.entity;
 public class UsersRoles {
     private Integer id;
 
-    private Integer userId;
+    private User user;
 
-    private Integer roleId;
+    private Role role;
 
     private Integer level;
 
@@ -17,23 +17,25 @@ public class UsersRoles {
         this.id = id;
     }
 
-    public Integer getUserId() {
-        return userId;
-    }
+   
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
+    public User getUser() {
+		return user;
+	}
 
-    public Integer getRoleId() {
-        return roleId;
-    }
+	public void setUser(User user) {
+		this.user = user;
+	}
 
-    public void setRoleId(Integer roleId) {
-        this.roleId = roleId;
-    }
+	public Role getRole() {
+		return role;
+	}
 
-    public Integer getLevel() {
+	public void setRole(Role role) {
+		this.role = role;
+	}
+
+	public Integer getLevel() {
         return level;
     }
 
