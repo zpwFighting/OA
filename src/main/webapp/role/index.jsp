@@ -72,9 +72,9 @@
 			bgcolor="#6386d6">
 			<!-- 列表标题栏 -->
 			<tr bgcolor="#EFF3F7" class="TableBody1">
-				<td width="5%" height="37" align="center"><b>序号</b></td>
-				<td width="18%" height="37" align="center"><B>角色名称</B></td>
-				<td width="5%" height="37" align="center"><b>操作</b></td>
+				<td width="20%" height="37" align="center"><b>序号</b></td>
+				<td width="30%" height="37" align="center"><B>角色名称</B></td>
+				<td width="20%" height="37" align="center"><b>操作</b></td>
 			</tr>
 			<!-- 列表数据栏 -->
 			<c:if test="${!empty list}">
@@ -86,7 +86,8 @@
 						<td align="center" vAlign="center">${role.name }</td>
 						<td align="center" vAlign="center"><a
 							onclick="del('${pageContext.request.contextPath}/role/del.action?id=${role.id}');">删除角色</a>
-						&nbsp;&nbsp;<a href="">角色授权</a>
+						&nbsp;&nbsp;
+						<a onclick="openWin('${pageContext.request.contextPath}/acl/addUI.action?mainType=Role&mainId=${role.id }','addORole',600,200,1);">角色授权</a>
 						</td>
 						
 					</tr>

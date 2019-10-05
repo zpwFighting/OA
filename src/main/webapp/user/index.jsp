@@ -98,7 +98,8 @@
 						onmouseout="this.style.coler='#0000ff'"
 						onclick="openWin('${pageContext.request.contextPath}/user/findRoleList.action?userId=${person.user.id}','addORole',600,200);">
 							分配角色</span>&nbsp;
-						<a onclick="del('${pageContext.request.contextPath}/org/del.action?id=${org.id}');">用户授权</a>
+						<a onclick="openWin('${pageContext.request.contextPath}/acl/addUI.action?mainType=User&mainId=${person.user.id }','addORole',600,200,1);">用户授权</a>
+						
 						</td>
 						
 					</tr>
