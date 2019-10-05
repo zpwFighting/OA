@@ -67,8 +67,8 @@ public class UserManagerImpl implements UserManager {
 	}
 
 	@Override
-	public List<Role> findRoleListByUser(int userId) {
-		List<Role> list = ursMapper.selectRolesByUser(userId);
+	public List<UsersRoles> findRoleListByUser(int userId) {
+		List<UsersRoles> list = ursMapper.selectUsersRolesByUser(userId);
 		return list;
 	}
 

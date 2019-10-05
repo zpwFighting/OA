@@ -92,8 +92,12 @@
 						onmouseout="this.style.coler='#0000ff'"
 						onclick="openWin('${pageContext.request.contextPath}/user/addUI.action?personId=${person.id }','addORole',600,200);">
 							账号分配</span>&nbsp;
-						<a onclick="del('${pageContext.request.contextPath}/user/del.action?personId=${person.id}');">删除账号</a>&nbsp;
-						<a onclick="del('${pageContext.request.contextPath}/org/del.action?id=${org.id}');">分配角色</a>&nbsp;
+						<a style="cursor: hand; color: #0000ff" onclick="del('${pageContext.request.contextPath}/user/del.action?personId=${person.id}');">删除账号</a>&nbsp;
+						<span style="cursor: hand; color: #0000ff"
+						onmouseover="this.style.coler='#ff0000'"
+						onmouseout="this.style.coler='#0000ff'"
+						onclick="openWin('${pageContext.request.contextPath}/user/findRoleList.action?userId=${person.user.id}','addORole',600,200);">
+							分配角色</span>&nbsp;
 						<a onclick="del('${pageContext.request.contextPath}/org/del.action?id=${org.id}');">用户授权</a>
 						</td>
 						

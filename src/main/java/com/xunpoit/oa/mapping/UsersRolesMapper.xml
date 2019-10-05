@@ -105,5 +105,25 @@
     <include refid="Base_Column_List" />
     from t_users_roles
     where user_id = #{userId,jdbcType=INTEGER}
+    order by level
   </select>
+  <select id="selectUsersRolesByUser" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_users_roles
+    where user_id = #{userId,jdbcType=INTEGER}
+    order by level
+  </select>
+  <!-- 查询用户拥有所有角色，desc如果等于0升序  如果等于1降序 -->
+   <select id="selectRoleListByUser" parameterType="java.util.Map" resultType="com.xunpoit.oa.entity.Role">
+    select 
+    r.id,r.name
+    from t_users_roles urs inner join t_role r
+    where urs.role_id=r.id and urs.user_id = #{userId}
+    order by level
+    <if test="desc==1">
+     desc
+    </if>
+  </select>
+  
 </mapper>

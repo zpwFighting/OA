@@ -21,6 +21,8 @@ public interface ModuleMapper {
 
 	List<Module> findAllByParent(Map<String ,Integer> map);
 
+	List<Module> findALLModuleListByKey(List<Integer> idList);
+
 
 	
 }

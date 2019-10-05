@@ -23,7 +23,7 @@ public interface UserManager {
 	public PageModel<Person> findAll(int offset,int pageSize); 
 	
 	//给用户分配角色之前要列出用户已有的所有角色
-	public List<Role> findRoleListByUser(int userId);
+	public List<UsersRoles> findRoleListByUser(int userId);
 	
 	//添加角色
 	public void addUserRole (UsersRoles urs);

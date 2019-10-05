@@ -51,7 +51,7 @@ public class ModuleController {
 	@RequestMapping(value="/findAll",method=RequestMethod.GET)
 	public String findAll(int pid,Pager pager ,Model model) {
 		//传的参数是pager.offset 
-		PageModel<Module> pm = moduleManager.findAll(pid,pager==null? 0:pager.getOffset(),3);
+		PageModel<Module> pm = moduleManager.findAll(pid,pager==null? 0:pager.getOffset(),6);
 		model.addAttribute("pm", pm);
 		model.addAttribute("pid", pid);
 		

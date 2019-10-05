@@ -38,7 +38,6 @@ public class OrgController {
 	}
 	@RequestMapping(value="/del",method=RequestMethod.GET)
 	public String del(int id) {
-		System.out.println("½øÈëÉ¾³ý");
 		orgManager.delOrgById(id);
 		return "common/pub_del_success";
 	}

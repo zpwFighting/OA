@@ -103,4 +103,27 @@
       extend_state = #{extendState,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <!-- 根据主体查询acl -->
+   <select id="selectACLByMain" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_acl
+    where main_type = #{mainType} and main_id = #{mainId} and module_id = #{moduleId}
+  </select>
+  
+  <!-- 初始化授权页面用到的方法 -->
+  <select id="findAllAclByMainTypeMainId" resultType="com.xunpoit.oa.entity.ACLCustom" parameterType="java.util.Map">
+    select module_id moduleId,
+    acl_state&amp;1 crudCreate,acl_state&amp;2 crudRead,acl_state&amp;4 crudUpdate,acl_state&amp;8 crudDelete,
+    extend_state extState 
+    from t_acl 
+    where main_type=#{mainType} and main_id=#{mainId};
+  </select>
+  <!--查询某个角色所有授权 -->
+  <select id="findAllAclListByMainTypeMainId" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_acl
+    where main_type = #{mainType} and main_id=#{mainId}
+  </select>
 </mapper>
