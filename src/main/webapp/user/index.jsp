@@ -87,19 +87,26 @@
 						<td align="center" vAlign="center">${person.org.name }</td>
 						<td align="center" vAlign="center">${person.user.userName }</td>
 						<td align="center" vAlign="center">
+						<c:if test="${my:getPermission(loginUser.id,'user',0) }">
 						<span style="cursor: hand; color: #0000ff"
 						onmouseover="this.style.coler='#ff0000'"
 						onmouseout="this.style.coler='#0000ff'"
 						onclick="openWin('${pageContext.request.contextPath}/user/addUI.action?personId=${person.id }','addORole',600,200);">
 							账号分配</span>&nbsp;
+						</c:if>
+						<c:if test="${my:getPermission(loginUser.id,'user',3) }">
 						<a style="cursor: hand; color: #0000ff" onclick="del('${pageContext.request.contextPath}/user/del.action?personId=${person.id}');">删除账号</a>&nbsp;
+						</c:if>
+						<c:if test="${my:getPermission(loginUser.id,'acl',2) }">
 						<span style="cursor: hand; color: #0000ff"
 						onmouseover="this.style.coler='#ff0000'"
 						onmouseout="this.style.coler='#0000ff'"
 						onclick="openWin('${pageContext.request.contextPath}/user/findRoleList.action?userId=${person.user.id}','addORole',600,200);">
 							分配角色</span>&nbsp;
+						</c:if>
+						<c:if test="${my:getPermission(loginUser.id,'acl',2) }">
 						<a onclick="openWin('${pageContext.request.contextPath}/acl/addUI.action?mainType=User&mainId=${person.user.id }','addORole',600,200,1);">用户授权</a>
-						
+						</c:if>
 						</td>
 						
 					</tr>

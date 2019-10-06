@@ -54,11 +54,14 @@
 							* <img src="images/addpic.gif" border=0 align=absMiddle style="CURSOR: hand"></a>
 							*/
 						%> <!-- <a onclick="openWin('${pageContext.request.contextPath}/org/addUI.action?pid=${pid}','addperson',600,200);">添加机构信息</a>&nbsp;&nbsp;&nbsp; -->
+						<c:if test="${my:getPermission(loginUser.id,'module',0) }">
 						<span style="cursor: hand; color: #0000ff"
 						onmouseover="this.style.coler='#ff0000'"
 						onmouseout="this.style.coler='#0000ff'"
 						onclick="openWin('${pageContext.request.contextPath}/module/addUI.action?pid=${pid }','addOrg',600,200);">
-							添加模板信息</span>&nbsp;&nbsp;&nbsp; <a href="module/findAll.action?pid=0">返回</a>
+							添加模板信息</span>&nbsp;&nbsp;&nbsp; 
+							</c:if>
+							<a href="module/findAll.action?pid=0">返回</a>
 					</TD>
 				</TR>
 				<TR>
@@ -93,8 +96,10 @@
 						<td align="center" vAlign="center">${mudule.parent.name }</td>
 						<td align="center" vAlign="center">${mudule.url }</td>
 						<td align="center" vAlign="center">${mudule.orderno }</td>
-						<td align="center" vAlign="center"><a
-							onclick="del('${pageContext.request.contextPath}/module/del.action?id=${mudule.id}');">删除</a>
+						<td align="center" vAlign="center">
+						<c:if test="${my:getPermission(loginUser.id,'module',3) }">
+						<a	onclick="del('${pageContext.request.contextPath}/module/del.action?id=${mudule.id}');">删除</a>
+						</c:if>
 						</td>
 					</tr>
 				</c:forEach>

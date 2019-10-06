@@ -42,23 +42,17 @@
 				</TR>
 				<TR>
 					<TD height=14 align=right vAlign=center noWrap>
-						<!-- 在这里插入查询表单 -->
 					</TD>
 					<TD height=14 align="left" vAlign=center noWrap>
-						<%
-							/**
-							* 在这里定义“添加”，“查询”等按钮
-							* <input type="image" name="find" value="find" src="images/cz.gif">
-							* &nbsp;&nbsp;&nbsp;&nbsp; 
-							* <a href="#" onClick="BeginOut('document.do?method=addInput','470')">
-							* <img src="images/addpic.gif" border=0 align=absMiddle style="CURSOR: hand"></a>
-							*/
-						%> <!-- <a onclick="openWin('${pageContext.request.contextPath}/org/addUI.action?pid=${pid}','addperson',600,200);">添加机构信息</a>&nbsp;&nbsp;&nbsp; -->
+						<c:if test="${my:getPermission(loginUser.id,'org',0)}" >
 						<span style="cursor: hand; color: #0000ff"
 						onmouseover="this.style.coler='#ff0000'"
 						onmouseout="this.style.coler='#0000ff'"
 						onclick="openWin('${pageContext.request.contextPath}/org/addUI.action?pid=${pid}','addOrg',600,200);">
-							添加机构信息</span>&nbsp;&nbsp;&nbsp; <a href="org/findAll.action?pid=${ppid}">返回</a>
+							添加机构信息</span>&nbsp;&nbsp;&nbsp;
+					   </c:if>
+					   <a href="org/findAll.action?pid=${ppid}">返回</a>
+						
 					</TD>
 				</TR>
 				<TR>
@@ -89,8 +83,10 @@
 							href="org/findAll.action?pid=${org.id }">${org.name }</a></td>
 						<td align="center" vAlign="center">${org.sn }</td>
 						<td align="center" vAlign="center">${org.parent.name }</td>
-						<td align="center" vAlign="center"><a
-							onclick="del('${pageContext.request.contextPath}/org/del.action?id=${org.id}');">删除</a>
+						<td align="center" vAlign="center">
+						<c:if test="${my:getPermission(loginUser.id,'org',3) }">
+						<a	onclick="del('${pageContext.request.contextPath}/org/del.action?id=${org.id}');">删除</a>
+						</c:if>
 						</td>
 					</tr>
 				</c:forEach>

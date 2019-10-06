@@ -1,8 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
+<%
+	String path = request.getContextPath();
+	String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
+			+ path + "/";
+%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
+<base href="<%=basePath%>"></base>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <LINK href="style/login.css" type=text/css rel=stylesheet>
 <title>Web OA系统首页</title>
@@ -11,7 +18,7 @@
 <BODY class=PageBody leftMargin=0 topMargin=0 onload=onLoad(); MARGINHEIGHT="0" 
 MARGINWIDTH="0">
 <CENTER>
-<form action="index.jsp" method="post">
+<form action="user/login.action" method="post">
 <TABLE height="100%" cellSpacing=0 cellPadding=0 border=0>
   <TBODY>
   <TR>
@@ -54,7 +61,7 @@ MARGINWIDTH="0">
                     <TR>
                       <TD class=ItemTitleFont align=right width=80 
                         height=25>用户名：</TD>
-                      <TD width=100><INPUT class=inputFrm name=username></TD>
+                      <TD width=100><INPUT class=inputFrm name=userName></TD>
                       <TD align=middle rowSpan=2><input type="image" src="images/login/userLogin_button.gif" 
                         border=0></TD></TR>
                     <TR>

@@ -19,7 +19,7 @@ import com.xunpoit.oa.entity.Module;
 import com.xunpoit.oa.entity.Role;
 import com.xunpoit.oa.manager.ACLManager;
 
-@Service
+@Service("aclManager")
 public class ACLManagerimpl implements ACLManager {
 
 	@Autowired
@@ -77,7 +77,7 @@ public class ACLManagerimpl implements ACLManager {
         }
 	}
 
-	//初始化授权页面
+	//初始化授权页面  
 	/**
 	 * mysql>  select module_id,acl_state&1,acl_state&2,acl_state&4,acl_state&8,extend_state 
 	 *         from t_acl 
@@ -107,6 +107,7 @@ public class ACLManagerimpl implements ACLManager {
 	}
 
 	/**
+	 * 认证：登录时有哪些模块显示
 	 * 1.查询用户端拥有的角色的所有授权，降序
 	 * 2.查询用户的所有授权，并与1中的授权进行合并
 	 * 3.去除那些没有读权限的摸快
@@ -197,6 +198,11 @@ public class ACLManagerimpl implements ACLManager {
 			
 		}
 		return false;
+	}
+	@Override
+	public boolean getPermission(int userId, String sn, int permission) {
+		int moduleId = moduleMapper.findModuleIdBySn( sn);
+		return this.getPermission(userId, moduleId, permission);
 	}
 
 }

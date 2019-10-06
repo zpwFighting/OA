@@ -31,5 +31,7 @@ public interface ACLManager {
 	
 	//即时验证  当一个用户登录后验证该用户对某一模块的某一操作是否允许
 	public boolean getPermission (int userId,int moduleId,int permission);
+	
+	public boolean getPermission (int userId,String sn,int permission);
 
 }

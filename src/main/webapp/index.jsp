@@ -1,5 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%
+	String path = request.getContextPath();
+	String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
+			+ path + "/";
+%>
 <HTML>
 <!--
  ---------------------------------------------------------------------------
@@ -15,12 +20,13 @@
  ---------------------------------------------------------------------------
 -->
 <HEAD>
+<base href="<%=basePath%>"></base>
 <META HTTP-EQUIV="Content-Type" CONTENT="text/html;CHARSET=iso-8859-1">
 <TITLE>Outlook Like Bar Example - (c) 2001 www.wallner-software.com</TITLE>
 </HEAD>
 
   <FRAMESET  cols = "130,*" frameborder=yes bordercolor=silver>
-     <FRAME SRC="outlook.html" NAME="Links" SCROLLING="No">
+     <FRAME SRC="outlook.jsp" NAME="Links" SCROLLING="No">
      <FRAME SRC="main.html" NAME="main" SCROLLING="AUTO">
   </FRAMESET> 
 

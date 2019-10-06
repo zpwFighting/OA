@@ -23,6 +23,8 @@ public interface ModuleMapper {
 
 	List<Module> findALLModuleListByKey(List<Integer> idList);
 
+	int findModuleIdBySn(String sn);
+
 
 	
 }

@@ -54,11 +54,13 @@
 							* <img src="images/addpic.gif" border=0 align=absMiddle style="CURSOR: hand"></a>
 							*/
 						%> <!-- <a onclick="openWin('${pageContext.request.contextPath}/org/addUI.action?pid=${pid}','addperson',600,200);">添加机构信息</a>&nbsp;&nbsp;&nbsp; -->
+						<c:if test="${my:getPermission(loginUser.id,'person',0) }">
 						<span style="cursor: hand; color: #0000ff"
 						onmouseover="this.style.coler='#ff0000'"
 						onmouseout="this.style.coler='#0000ff'"
 						onclick="openWin('${pageContext.request.contextPath}/person/addUI.action','addperson',600,200);">
 							添加人员信息</span>&nbsp;&nbsp;&nbsp;
+					    </c:if>
 					</TD>
 				</TR>
 				<TR>
@@ -92,8 +94,10 @@
 						<td align="center" vAlign="center">${person.duty }</td>
 						<td align="center" vAlign="center">${person.phone }</td>
 						<td align="center" vAlign="center">${person.org.name }</td>
-						<td align="center" vAlign="center"><a
-							onclick="del('${pageContext.request.contextPath}/person/del.action?id=${person.id}');">删除</a>
+						<td align="center" vAlign="center">
+						<c:if test="${my:getPermission(loginUser.id,'person',3) }">
+						<a	onclick="del('${pageContext.request.contextPath}/person/del.action?id=${person.id}');">删除</a>
+						</c:if>
 						</td>
 					</tr>
 				</c:forEach>

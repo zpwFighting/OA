@@ -156,4 +156,7 @@
     where 1=2
     </if>
   </select>
+  <select id="findModuleIdBySn" resultType="java.lang.Integer" parameterType="java.lang.String" >
+    select id from t_module where sn = #{sn}
+  </select>
 </mapper>

@@ -11,7 +11,83 @@
 <base href="<%=basePath%>"></base>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <link href="style/oa.css" rel="stylesheet" type="text/css">
-<script language="javascript" src="script/public.js"></script>
+<script language="javascript" src="${pageContext.request.contextPath}/script/public.js"></script>
+  <script type='text/javascript' src='${pageContext.request.contextPath}/dwr/interface/aclManager.js'></script>
+  <script type='text/javascript' src='${pageContext.request.contextPath}/dwr/engine.js'></script>
+  <script type='text/javascript' src='${pageContext.request.contextPath}/dwr/util.js'></script>
+<script type="text/javascript">
+	function initPage(){
+		aclManager.findAllAclByMainTypeMainId('${mainType}',${mainId},function(v1){
+			for(var i=0 ;i<v1.length;i++){
+				var arr = v1[i];
+				var moduleId = arr[0];
+				var c = arr[1];
+				var r = arr[2];
+				var u = arr[3];
+				var d = arr[4];
+				var ext = arr[5];
+				
+				var cb_c = document.getElementById("C_"+moduleId);
+				var cb_r = document.getElementById("R_"+moduleId);
+				var cb_u = document.getElementById("U_"+moduleId);
+				var cb_d = document.getElementById("D_"+moduleId);
+				var USE = document.getElementById("USE_"+moduleId);
+				var EXT = document.getElementById("EXT_"+moduleId);
+				
+				
+				
+				cb_c.checked = c > 0?true:false;
+				cb_r.checked = r > 0?true:false;
+				cb_u.checked = u > 0?true:false;
+				cb_d.checked = d > 0?true:false;
+				USE.checked = true; 
+				
+				if(EXT!=null){
+					EXT.checked = ext==0?true:false;
+				}
+			}
+		});
+	}
+	function addOrUpdateAcl(cb){
+		//public void addOrUpdateAcl(String mainType, int mainId, int moduleId, int permission, boolean yes
+		aclManager.addOrUpdateAcl('${mainType}',${mainId},cb.moduleId,cb.permission,cb.checked);
+		var USE = document.getElementById("USE_"+cb.moduleId);
+		var EXT = document.getElementById("EXT_"+cb.moduleId);
+		if(EXT!=null){
+			EXT.checked = true;
+		}
+		USE.checked = true; 
+	}
+	
+	function addOrDelAcl(cb){
+		dwr.engine.setAsync(false);//设置请求处理为：同步请求处理（排队执行）
+		if(cb.checked){
+			//添加
+			aclManager.addOrUpdateAcl('${mainType}',${mainId},cb.moduleId,0,cb.checked);
+			aclManager.addOrUpdateAcl('${mainType}',${mainId},cb.moduleId,1,cb.checked);
+			aclManager.addOrUpdateAcl('${mainType}',${mainId},cb.moduleId,2,cb.checked);
+			aclManager.addOrUpdateAcl('${mainType}',${mainId},cb.moduleId,3,cb.checked);
+		}else{
+			//删除
+			aclManager.delAcl('${mainType}',${mainId},cb.moduleId);
+		}
+		//全选问题
+		var cb_c = document.getElementById("C_"+cb.moduleId);
+		var cb_r = document.getElementById("R_"+cb.moduleId);
+		var cb_u = document.getElementById("U_"+cb.moduleId);
+		var cb_d = document.getElementById("D_"+cb.moduleId);
+		var EXT = document.getElementById("EXT_"+cb.moduleId);
+		cb_c.checked = cb.checked;
+		cb_r.checked = cb.checked;
+		cb_u.checked = cb.checked;
+		cb_d.checked = cb.checked;
+		if(EXT!=null){
+			EXT.checked = cb.checked;
+		}
+		
+		
+	}
+</script>
 <c:if test="${!empty role }">
 <title>请给角色【 ${role.name}】授权</title>
 </c:if>
@@ -20,7 +96,7 @@
 </c:if>
 </head>
 <BODY bgColor=#dee7ff leftMargin=0 background="" topMargin=0
-	marginheight="0" marginwidth="0">
+	marginheight="0" marginwidth="0" onload="initPage()">
 	<center>
 		
 		<TABLE width="778" border=0 align=center cellPadding=0 cellSpacing=0
@@ -60,15 +136,15 @@
 						<td align="center" vAlign="center">${module.name }</td>
 						<td align="center" vAlign="center">&nbsp;</td>
 						<td align="center" vAlign="center">
-						<input type="checkbox" name="c">C
-						<input type="checkbox" name="r">R
-						<input type="checkbox" name="u">U
-						<input type="checkbox" name="d">D
+						<input type="checkbox" id="C_${module.id }" moduleId="${module.id }" permission="0" onclick="addOrUpdateAcl(this)">C
+						<input type="checkbox" id="R_${module.id }" moduleId="${module.id }" permission="1" onclick="addOrUpdateAcl(this)">R
+						<input type="checkbox" id="U_${module.id }" moduleId="${module.id }" permission="2" onclick="addOrUpdateAcl(this)">U
+						<input type="checkbox" id="D_${module.id }" moduleId="${module.id }" permission="3" onclick="addOrUpdateAcl(this)">D
 						</td>
 						<c:if test="${!empty user}">
-						<td align="center" vAlign="center"><input type="checkbox" name=""></td>
+						<td align="center" vAlign="center"><input type="checkbox" id="EXT_${module.id }"></td>
 						</c:if>
-						<td align="center" vAlign="center"><input type="checkbox" name=""></td>
+						<td align="center" vAlign="center"><input type="checkbox" id="USE_${module.id }"  moduleId="${module.id }" onclick="addOrDelAcl(this)"></td>
 					</tr>
 					<c:forEach items="${module.childList }" var="child">
 						<tr bgcolor="#EFF3F7" class="TableBody1"
@@ -77,15 +153,15 @@
 							<td align="center" vAlign="center">&nbsp;</td>
 							<td align="center" vAlign="center">${child.name }</td>
 							<td align="center" vAlign="center">
-							<input type="checkbox" name="c">C
-							<input type="checkbox" name="r">R
-							<input type="checkbox" name="u">U
-							<input type="checkbox" name="d">D
+							<input type="checkbox" id="C_${child.id }" moduleId="${child.id }" permission="0" onclick="addOrUpdateAcl(this)">C
+							<input type="checkbox" id="R_${child.id }" moduleId="${child.id }" permission="1" onclick="addOrUpdateAcl(this)">R
+							<input type="checkbox" id="U_${child.id }" moduleId="${child.id }" permission="2" onclick="addOrUpdateAcl(this)">U
+							<input type="checkbox" id="D_${child.id }" moduleId="${child.id }" permission="3" onclick="addOrUpdateAcl(this)">D
 							</td>
 							<c:if test="${!empty user}">
-							<td align="center" vAlign="center"><input type="checkbox" name=""></td>
+							<td align="center" vAlign="center"><input type="checkbox" id="EXT_${child.id }"></td>
 							</c:if>
-							<td align="center" vAlign="center"><input type="checkbox" name=""></td>
+							<td align="center" vAlign="center"><input type="checkbox" id="USE_${child.id }"  moduleId="${child.id }" onclick="addOrDelAcl(this)"></td>
 						</tr>
 					</c:forEach>
 				</c:forEach>

@@ -2,6 +2,8 @@ package com.xunpoit.oa.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,11 +13,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.xunpoit.oa.entity.Module;
 import com.xunpoit.oa.entity.Pager;
 import com.xunpoit.oa.entity.Person;
 import com.xunpoit.oa.entity.Role;
 import com.xunpoit.oa.entity.User;
 import com.xunpoit.oa.entity.UsersRoles;
+import com.xunpoit.oa.manager.ACLManager;
 import com.xunpoit.oa.manager.PersonManager;
 import com.xunpoit.oa.manager.RoleManager;
 import com.xunpoit.oa.manager.UserManager;
@@ -29,6 +33,8 @@ public class UserController {
 	private UserManager userManager;
 	@Autowired
 	private RoleManager rolemanager;
+	@Autowired
+	private ACLManager aclManager;
 	
 	@RequestMapping(value="/addUI",method=RequestMethod.GET)
 	public String addUI(Model model,int personId) {
@@ -102,6 +108,22 @@ public class UserController {
 		userManager.addUserRole(urs);
 		return "common/pub_add_success";
 	}
+	
+	///登录
+	@RequestMapping(value="/login",method=RequestMethod.POST)
+	public String login(User user,HttpSession session) {
+		User loginUser = userManager.login(user);
+		if(loginUser!=null) {
+			session.setAttribute("loginUser", loginUser);
+			//获取该用户所有具有读取权限的模块
+			List<Module> moduleList = aclManager.findAllModuleByUserId(loginUser.getId());
+			session.setAttribute("moduleList", moduleList);
+			return "index";
+		}
+		//登录失败
+		return "login";
+	}
+	
 	@InitBinder("pager")
 	public void initBinder(WebDataBinder binder) {
 		binder.setFieldDefaultPrefix("pager.");
